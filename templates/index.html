@@ -23,11 +23,11 @@
       }
 
       h1,
-      h2 {
+      h2,
+      h3 {
         margin-bottom: 0.25rem;
       }
 
-      header p,
       section > p {
         margin-top: 0;
         color: CanvasText;
@@ -108,27 +108,24 @@
   </head>
   <body>
     <header>
-      <h1>Projects</h1>
-      <p>Public work by HagantaRG.</p>
+      <h1>About Myself</h1>
+      <div class="description">
+{{ about_myself }}
+      </div>
     </header>
 
-    <main>
-      <section aria-labelledby="about-myself">
-        <h2 id="about-myself">About Myself</h2>
-        <div class="description">
-{{ about_myself }}
-        </div>
-      </section>
+    <main aria-labelledby="projects">
+      <h2 id="projects">Projects</h2>
 
       <section aria-labelledby="current-projects">
-        <h2 id="current-projects">Current</h2>
+        <h3 id="current-projects">Current</h3>
         <ul>
 {{ current_projects }}
         </ul>
       </section>
 
       <section aria-labelledby="archive">
-        <h2 id="archive">Archive</h2>
+        <h3 id="archive">Archive</h3>
         <p>Projects I no longer work on or have since replaced.</p>
         <ul>
 {{ archive_projects }}
