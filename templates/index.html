@@ -22,15 +22,13 @@
         margin-bottom: 3rem;
       }
 
-      h1 {
-        margin-bottom: 0.25rem;
-      }
-
+      h1,
       h2 {
         margin-bottom: 0.25rem;
       }
 
-      p {
+      header p,
+      section > p {
         margin-top: 0;
         color: CanvasText;
         opacity: 0.7;
@@ -42,6 +40,7 @@
       }
 
       li {
+        padding: 1rem 0;
         border-top: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
       }
 
@@ -49,33 +48,38 @@
         border-bottom: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
       }
 
-      li a {
+      .project-heading {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
         gap: 1rem;
-        padding: 1rem 0;
+      }
+
+      .project-heading a {
         color: LinkText;
         font-weight: 600;
         text-decoration: none;
       }
 
-      li a:hover,
-      li a:focus-visible {
+      .project-heading a:hover,
+      .project-heading a:focus-visible,
+      .description a:hover,
+      .description a:focus-visible {
         text-decoration: underline;
       }
 
-      small {
+      .languages {
         color: CanvasText;
-        font-weight: 400;
+        font-size: 0.875rem;
         opacity: 0.65;
       }
 
-      footer {
-        margin-top: 3rem;
+      .description p {
+        margin: 0.5rem 0 0;
       }
 
-      section + section {
+      section + section,
+      footer {
         margin-top: 3rem;
       }
     </style>
@@ -90,24 +94,7 @@
       <section aria-labelledby="current-projects">
         <h2 id="current-projects">Current</h2>
         <ul>
-          <li>
-            <a href="https://github.com/HagantaRG/london-trains-eframe">
-              <span>london-trains-eframe</span>
-              <small>Rust</small>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/HagantaRG/my_own_scraper">
-              <span>my_own_scraper</span>
-              <small>Python</small>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/HagantaRG/comic-ocr">
-              <span>comic-ocr</span>
-              <small>HTML</small>
-            </a>
-          </li>
+{{ current_projects }}
         </ul>
       </section>
 
@@ -115,12 +102,7 @@
         <h2 id="archive">Archive</h2>
         <p>Projects I no longer work on or have since replaced.</p>
         <ul>
-          <li>
-            <a href="https://github.com/HagantaRG/TfL-API-project">
-              <span>TfL-API-project</span>
-              <small>Python</small>
-            </a>
-          </li>
+{{ archive_projects }}
         </ul>
       </section>
     </main>

@@ -1,0 +1,23 @@
+[[current]]
+name = "london-trains-eframe"
+languages = ["Rust"]
+link = "https://github.com/HagantaRG/london-trains-eframe"
+description = "descriptions/london-trains-eframe.md"
+
+[[current]]
+name = "my_own_scraper"
+languages = ["Python"]
+link = "https://github.com/HagantaRG/my_own_scraper"
+description = "descriptions/my_own_scraper.md"
+
+[[current]]
+name = "comic-ocr"
+languages = ["Python", "HTML", "JavaScript"]
+link = "https://github.com/HagantaRG/comic-ocr"
+description = "descriptions/comic-ocr.md"
+
+[[archive]]
+name = "TfL-API-project"
+languages = ["Python"]
+link = "https://github.com/HagantaRG/TfL-API-project"
+description = "descriptions/tfl-api-project.md"
