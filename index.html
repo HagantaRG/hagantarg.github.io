@@ -26,6 +26,10 @@
         margin-bottom: 0.25rem;
       }
 
+      h2 {
+        margin-bottom: 0.25rem;
+      }
+
       p {
         margin-top: 0;
         color: CanvasText;
@@ -70,6 +74,10 @@
       footer {
         margin-top: 3rem;
       }
+
+      section + section {
+        margin-top: 3rem;
+      }
     </style>
   </head>
   <body>
@@ -79,26 +87,36 @@
     </header>
 
     <main aria-label="Public GitHub projects">
-      <ul>
-        <li>
-          <a href="https://github.com/HagantaRG/my_own_scraper">
-            <span>my_own_scraper</span>
-            <small>Python</small>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/HagantaRG/comic-ocr">
-            <span>comic-ocr</span>
-            <small>HTML</small>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/HagantaRG/TfL-API-project">
-            <span>TfL-API-project</span>
-            <small>Python</small>
-          </a>
-        </li>
-      </ul>
+      <section aria-labelledby="current-projects">
+        <h2 id="current-projects">Current</h2>
+        <ul>
+          <li>
+            <a href="https://github.com/HagantaRG/my_own_scraper">
+              <span>my_own_scraper</span>
+              <small>Python</small>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/HagantaRG/comic-ocr">
+              <span>comic-ocr</span>
+              <small>HTML</small>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="archive">
+        <h2 id="archive">Archive</h2>
+        <p>Projects I no longer work on or have since replaced.</p>
+        <ul>
+          <li>
+            <a href="https://github.com/HagantaRG/TfL-API-project">
+              <span>TfL-API-project</span>
+              <small>Python</small>
+            </a>
+          </li>
+        </ul>
+      </section>
     </main>
 
     <footer>
