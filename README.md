@@ -29,6 +29,23 @@ description = "descriptions/ABOUTME.md"
 Edit `descriptions/ABOUTME.md` to update the biography displayed above the
 project sections. Exactly one `About Myself` table is required.
 
+## Updating the working diary
+
+Diary entries are generated from [`diary.toml`](diary.toml). Add entries in the
+order they should appear on the page:
+
+```toml
+[[entry]]
+title = "Entry title"
+date = 2026-08-14
+content = "diary/entry-file.md"
+```
+
+The date must be an unquoted TOML local date in `YYYY-MM-DD` format. The
+`content` value must point to a Markdown file directly inside the `diary`
+directory. Diary files use the same full Markdown renderer as project
+descriptions.
+
 Build the site locally with:
 
 ```powershell
@@ -36,5 +53,6 @@ python -m pip install --requirement requirements.txt
 python scripts/build_site.py
 ```
 
-The generated page is written to `_site/index.html`. GitHub Actions runs this
-command and deploys `_site` automatically whenever `main` changes.
+The generated project page, diary page, and shared stylesheet are written to
+`_site`. GitHub Actions runs this command and deploys `_site` automatically
+whenever `main` changes.

@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import html
+import shutil
 import tomllib
+from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -20,6 +22,8 @@ PLACEHOLDERS = {
 ABOUT_SECTION = "About Myself"
 ABOUT_PLACEHOLDER = "{{ about_myself }}"
 REQUIRED_FIELDS = {"name", "languages", "link", "description"}
+DIARY_FIELDS = {"title", "date", "content"}
+DIARY_PLACEHOLDER = "{{ diary_entries }}"
 
 
 def render_markdown(markdown_text: str) -> str:
@@ -41,6 +45,19 @@ def resolve_description(relative_path: str) -> Path:
         )
     if not path.is_file():
         raise FileNotFoundError(f"Description file not found: {relative_path}")
+    return path
+
+
+def resolve_diary_content(relative_path: str) -> Path:
+    path = (ROOT / relative_path).resolve()
+    diary_root = (ROOT / "diary").resolve()
+    if path.parent != diary_root or path.suffix.lower() != ".md":
+        raise ValueError(
+            f"Diary content must be a Markdown file directly inside diary/: "
+            f"{relative_path}"
+        )
+    if not path.is_file():
+        raise FileNotFoundError(f"Diary content file not found: {relative_path}")
     return path
 
 
@@ -96,7 +113,47 @@ def render_project(project: dict[str, object]) -> str:
     )
 
 
-def build(output: Path) -> None:
+def validate_diary_entry(entry: dict[str, object]) -> None:
+    missing = DIARY_FIELDS - entry.keys()
+    extra = entry.keys() - DIARY_FIELDS
+    if missing or extra:
+        raise ValueError(
+            f"Invalid diary entry fields; missing={sorted(missing)}, "
+            f"extra={sorted(extra)}"
+        )
+
+    if not isinstance(entry["title"], str) or not entry["title"].strip():
+        raise ValueError(f"Diary title must be a non-empty string: {entry!r}")
+    if type(entry["date"]) is not date:
+        raise ValueError(f"Diary date must be a TOML local date: {entry!r}")
+    if not isinstance(entry["content"], str):
+        raise ValueError(f"Diary content must be a Markdown file path: {entry!r}")
+    resolve_diary_content(entry["content"])
+
+
+def render_diary_entry(entry: dict[str, object]) -> str:
+    title = html.escape(str(entry["title"]))
+    entry_date = entry["date"]
+    if type(entry_date) is not date:
+        raise TypeError("Validated diary date is not a date")
+    machine_date = entry_date.isoformat()
+    display_date = f"{entry_date.strftime('%B')} {entry_date.day}, {entry_date.year}"
+    content_path = resolve_diary_content(str(entry["content"]))
+    content = render_markdown(content_path.read_text(encoding="utf-8"))
+    return "\n".join(
+        (
+            '        <article class="diary-entry">',
+            "          <header>",
+            f"            <h2>{title}</h2>",
+            f'            <time datetime="{machine_date}">{display_date}</time>',
+            "          </header>",
+            f'          <div class="description">{content}</div>',
+            "        </article>",
+        )
+    )
+
+
+def build_projects_page() -> str:
     with (ROOT / "projects.toml").open("rb") as project_file:
         project_data = tomllib.load(project_file)
 
@@ -145,8 +202,47 @@ def build(output: Path) -> None:
             raise ValueError(f"Template must contain exactly one {placeholder} placeholder")
         template = template.replace(placeholder, rendered)
 
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(template, encoding="utf-8", newline="\n")
+    return template
+
+
+def build_diary_page() -> str:
+    with (ROOT / "diary.toml").open("rb") as diary_file:
+        diary_data = tomllib.load(diary_file)
+
+    if set(diary_data) != {"entry"}:
+        raise ValueError("diary.toml must contain only entry tables")
+    entries = diary_data["entry"]
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("diary.toml must contain at least one entry")
+
+    seen_content: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("Each diary entry must be a TOML table")
+        validate_diary_entry(entry)
+        content_path = str(entry["content"])
+        if content_path in seen_content:
+            raise ValueError(f"Duplicate diary content path: {content_path}")
+        seen_content.add(content_path)
+
+    template = (ROOT / "templates" / "diary.html").read_text(encoding="utf-8")
+    if template.count(DIARY_PLACEHOLDER) != 1:
+        raise ValueError(
+            f"Template must contain exactly one {DIARY_PLACEHOLDER} placeholder"
+        )
+    rendered = "\n".join(render_diary_entry(entry) for entry in entries)
+    return template.replace(DIARY_PLACEHOLDER, rendered)
+
+
+def build(output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "index.html").write_text(
+        build_projects_page(), encoding="utf-8", newline="\n"
+    )
+    (output_dir / "diary.html").write_text(
+        build_diary_page(), encoding="utf-8", newline="\n"
+    )
+    shutil.copyfile(ROOT / "assets" / "styles.css", output_dir / "styles.css")
 
 
 def main() -> None:
@@ -154,12 +250,13 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "_site" / "index.html",
-        help="Path for the generated HTML file",
+        default=ROOT / "_site",
+        help="Directory for the generated site",
     )
     args = parser.parse_args()
-    build(args.output.resolve())
-    print(f"Built {args.output.resolve()}")
+    output_dir = args.output.resolve()
+    build(output_dir)
+    print(f"Built {output_dir}")
 
 
 if __name__ == "__main__":

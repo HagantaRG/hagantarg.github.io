@@ -5,167 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Public projects by HagantaRG.">
     <title>HagantaRG — Projects</title>
-    <style>
-      :root {
-        color-scheme: light dark;
-        font-family: system-ui, sans-serif;
-        line-height: 1.5;
-      }
-
-      body {
-        max-width: 42rem;
-        margin: 0 auto;
-        padding: 4rem 1.5rem;
-      }
-
-      header {
-        margin-bottom: 3rem;
-      }
-
-      h1,
-      h2,
-      h3 {
-        margin-bottom: 0.25rem;
-      }
-
-      section > p {
-        margin-top: 0;
-        color: CanvasText;
-        opacity: 0.7;
-      }
-
-      .project-list {
-        padding: 0;
-        list-style: none;
-      }
-
-      .project-list > li {
-        padding: 1rem 0;
-        border-top: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
-      }
-
-      .project-list > li:last-child {
-        border-bottom: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
-      }
-
-      .project-heading {
-        display: flex;
-        align-items: baseline;
-        gap: 0.5rem;
-        cursor: pointer;
-        list-style: none;
-      }
-
-      .project-heading::before {
-        content: "▸";
-        transition: transform 0.15s ease;
-      }
-
-      .project-heading::-webkit-details-marker {
-        display: none;
-      }
-
-      details[open] > .project-heading::before {
-        transform: rotate(90deg);
-      }
-
-      .project-name {
-        font-weight: 600;
-      }
-
-      .description a:hover,
-      .description a:focus-visible,
-      .project-link:hover,
-      .project-link:focus-visible {
-        text-decoration: underline;
-      }
-
-      .languages {
-        margin-left: auto;
-        color: CanvasText;
-        font-size: 0.875rem;
-        opacity: 0.65;
-      }
-
-      .description p {
-        margin: 0.5rem 0 0;
-      }
-
-      .description > :first-child {
-        margin-top: 0.5rem;
-      }
-
-      .description pre {
-        overflow-x: auto;
-        padding: 1rem;
-        background: color-mix(in srgb, CanvasText 8%, Canvas);
-      }
-
-      .description code {
-        font-family: ui-monospace, monospace;
-      }
-
-      .description img,
-      .description table {
-        max-width: 100%;
-      }
-
-      .description table {
-        border-collapse: collapse;
-      }
-
-      .description th,
-      .description td {
-        padding: 0.25rem 0.5rem;
-        border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
-      }
-
-      .project-link {
-        display: inline-block;
-        margin-top: 0.5rem;
-        color: LinkText;
-        font-size: 0.875rem;
-        font-weight: 600;
-        text-decoration: none;
-      }
-
-      section + section,
-      footer {
-        margin-top: 3rem;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <header>
-      <h1>About Myself</h1>
-      <div class="description">
+    <nav class="side-nav" aria-label="Site navigation">
+      <a href="index.html" aria-current="page">Projects</a>
+      <a href="diary.html">Working Diary</a>
+    </nav>
+
+    <div class="page-shell">
+      <header class="page-header">
+        <h1>About Myself</h1>
+        <div class="description">
 {{ about_myself }}
-      </div>
-    </header>
+        </div>
+      </header>
 
-    <main aria-labelledby="projects">
-      <h2 id="projects">Projects</h2>
+      <main aria-labelledby="projects">
+        <h2 id="projects">Projects</h2>
 
-      <section aria-labelledby="current-projects">
-        <h3 id="current-projects">Current</h3>
-        <ul class="project-list">
+        <section aria-labelledby="current-projects">
+          <h3 id="current-projects">Current</h3>
+          <ul class="project-list">
 {{ current_projects }}
-        </ul>
-      </section>
+          </ul>
+        </section>
 
-      <section aria-labelledby="archive">
-        <h3 id="archive">Archive</h3>
-        <p>Projects I no longer work on or have since replaced.</p>
-        <ul class="project-list">
+        <section aria-labelledby="archive">
+          <h3 id="archive">Archive</h3>
+          <p>Projects I no longer work on or have since replaced.</p>
+          <ul class="project-list">
 {{ archive_projects }}
-        </ul>
-      </section>
-    </main>
+          </ul>
+        </section>
+      </main>
 
-    <footer>
-      <a href="https://github.com/HagantaRG">GitHub</a>
-      ·
-      <a href="https://www.linkedin.com/in/haganta-ramyakim-ginting-53007688/">LinkedIn</a>
-    </footer>
+      <footer class="page-footer">
+        <a href="https://github.com/HagantaRG">GitHub</a>
+        ·
+        <a href="https://www.linkedin.com/in/haganta-ramyakim-ginting-53007688/">LinkedIn</a>
+      </footer>
+    </div>
   </body>
 </html>
