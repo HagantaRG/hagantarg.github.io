@@ -34,17 +34,17 @@
         opacity: 0.7;
       }
 
-      ul {
+      .project-list {
         padding: 0;
         list-style: none;
       }
 
-      li {
+      .project-list > li {
         padding: 1rem 0;
         border-top: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
       }
 
-      li:last-child {
+      .project-list > li:last-child {
         border-bottom: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
       }
 
@@ -91,6 +91,35 @@
         margin: 0.5rem 0 0;
       }
 
+      .description > :first-child {
+        margin-top: 0.5rem;
+      }
+
+      .description pre {
+        overflow-x: auto;
+        padding: 1rem;
+        background: color-mix(in srgb, CanvasText 8%, Canvas);
+      }
+
+      .description code {
+        font-family: ui-monospace, monospace;
+      }
+
+      .description img,
+      .description table {
+        max-width: 100%;
+      }
+
+      .description table {
+        border-collapse: collapse;
+      }
+
+      .description th,
+      .description td {
+        padding: 0.25rem 0.5rem;
+        border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+      }
+
       .project-link {
         display: inline-block;
         margin-top: 0.5rem;
@@ -119,7 +148,7 @@
 
       <section aria-labelledby="current-projects">
         <h3 id="current-projects">Current</h3>
-        <ul>
+        <ul class="project-list">
 {{ current_projects }}
         </ul>
       </section>
@@ -127,7 +156,7 @@
       <section aria-labelledby="archive">
         <h3 id="archive">Archive</h3>
         <p>Projects I no longer work on or have since replaced.</p>
-        <ul>
+        <ul class="project-list">
 {{ archive_projects }}
         </ul>
       </section>

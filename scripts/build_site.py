@@ -5,14 +5,14 @@ from __future__ import annotations
 
 import argparse
 import html
-import re
 import tomllib
 from pathlib import Path
 from urllib.parse import urlparse
 
+import markdown
+
 
 ROOT = Path(__file__).resolve().parent.parent
-LINK_PATTERN = re.compile(r"\[([^\]]+)]\((https?://[^\s)]+)\)")
 PLACEHOLDERS = {
     "current": "{{ current_projects }}",
     "archive": "{{ archive_projects }}",
@@ -22,28 +22,12 @@ ABOUT_PLACEHOLDER = "{{ about_myself }}"
 REQUIRED_FIELDS = {"name", "languages", "link", "description"}
 
 
-def render_inline_markdown(text: str) -> str:
-    """Render safe Markdown links while escaping all other HTML."""
-    output: list[str] = []
-    position = 0
-    for match in LINK_PATTERN.finditer(text):
-        output.append(html.escape(text[position : match.start()]))
-        label, url = match.groups()
-        output.append(
-            f'<a href="{html.escape(url, quote=True)}">{html.escape(label)}</a>'
-        )
-        position = match.end()
-    output.append(html.escape(text[position:]))
-    return "".join(output)
-
-
-def render_markdown(markdown: str) -> str:
-    """Render paragraphs and links from a small, safe Markdown subset."""
-    paragraphs = re.split(r"\n\s*\n", markdown.strip())
-    return "\n".join(
-        f"<p>{render_inline_markdown(' '.join(paragraph.splitlines()))}</p>"
-        for paragraph in paragraphs
-        if paragraph.strip()
+def render_markdown(markdown_text: str) -> str:
+    """Render repository-controlled Markdown into HTML."""
+    return markdown.markdown(
+        markdown_text,
+        extensions=["extra", "sane_lists"],
+        output_format="html5",
     )
 
 
