@@ -15,6 +15,18 @@ description = "descriptions/project-name.md"
 
 The `description` value must point to a Markdown file directly inside the
 `descriptions` directory. The renderer supports paragraphs and Markdown links.
+Project descriptions are displayed in collapsed disclosure panels on the site.
+
+The About Myself section uses a quoted TOML table name because it contains a
+space:
+
+```toml
+[["About Myself"]]
+description = "descriptions/ABOUTME.md"
+```
+
+Edit `descriptions/ABOUTME.md` to update the biography displayed above the
+project sections. Exactly one `About Myself` table is required.
 
 Build the site locally with:
 

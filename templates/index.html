@@ -51,24 +51,37 @@
       .project-heading {
         display: flex;
         align-items: baseline;
-        justify-content: space-between;
-        gap: 1rem;
+        gap: 0.5rem;
+        cursor: pointer;
+        list-style: none;
       }
 
-      .project-heading a {
-        color: LinkText;
+      .project-heading::before {
+        content: "▸";
+        transition: transform 0.15s ease;
+      }
+
+      .project-heading::-webkit-details-marker {
+        display: none;
+      }
+
+      details[open] > .project-heading::before {
+        transform: rotate(90deg);
+      }
+
+      .project-name {
         font-weight: 600;
-        text-decoration: none;
       }
 
-      .project-heading a:hover,
-      .project-heading a:focus-visible,
       .description a:hover,
-      .description a:focus-visible {
+      .description a:focus-visible,
+      .project-link:hover,
+      .project-link:focus-visible {
         text-decoration: underline;
       }
 
       .languages {
+        margin-left: auto;
         color: CanvasText;
         font-size: 0.875rem;
         opacity: 0.65;
@@ -76,6 +89,15 @@
 
       .description p {
         margin: 0.5rem 0 0;
+      }
+
+      .project-link {
+        display: inline-block;
+        margin-top: 0.5rem;
+        color: LinkText;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
       }
 
       section + section,
@@ -90,7 +112,14 @@
       <p>Public work by HagantaRG.</p>
     </header>
 
-    <main aria-label="Public GitHub projects">
+    <main>
+      <section aria-labelledby="about-myself">
+        <h2 id="about-myself">About Myself</h2>
+        <div class="description">
+{{ about_myself }}
+        </div>
+      </section>
+
       <section aria-labelledby="current-projects">
         <h2 id="current-projects">Current</h2>
         <ul>

@@ -17,6 +17,8 @@ PLACEHOLDERS = {
     "current": "{{ current_projects }}",
     "archive": "{{ archive_projects }}",
 }
+ABOUT_SECTION = "About Myself"
+ABOUT_PLACEHOLDER = "{{ about_myself }}"
 REQUIRED_FIELDS = {"name", "languages", "link", "description"}
 
 
@@ -97,11 +99,14 @@ def render_project(project: dict[str, object]) -> str:
     return "\n".join(
         (
             "          <li>",
-            '            <div class="project-heading">',
-            f'              <a href="{link}">{name}</a>',
-            f'              <span class="languages">{languages}</span>',
-            "            </div>",
-            f'            <div class="description">{description}</div>',
+            "            <details>",
+            '              <summary class="project-heading">',
+            f'                <span class="project-name">{name}</span>',
+            f'                <span class="languages">{languages}</span>',
+            "              </summary>",
+            f'              <div class="description">{description}</div>',
+            f'              <a class="project-link" href="{link}">View project →</a>',
+            "            </details>",
             "          </li>",
         )
     )
@@ -111,11 +116,31 @@ def build(output: Path) -> None:
     with (ROOT / "projects.toml").open("rb") as project_file:
         project_data = tomllib.load(project_file)
 
-    if set(project_data) != set(PLACEHOLDERS):
-        raise ValueError("projects.toml must contain only current and archive sections")
+    expected_sections = set(PLACEHOLDERS) | {ABOUT_SECTION}
+    if set(project_data) != expected_sections:
+        raise ValueError(
+            "projects.toml must contain only About Myself, current, and archive sections"
+        )
 
     template = (ROOT / "templates" / "index.html").read_text(encoding="utf-8")
     seen_links: set[str] = set()
+
+    about_entries = project_data[ABOUT_SECTION]
+    if not isinstance(about_entries, list) or len(about_entries) != 1:
+        raise ValueError("About Myself must contain exactly one TOML table")
+    about = about_entries[0]
+    if not isinstance(about, dict) or set(about) != {"description"}:
+        raise ValueError("About Myself must contain only a description field")
+    about_path_value = about["description"]
+    if not isinstance(about_path_value, str):
+        raise ValueError("About Myself description must be a Markdown file path")
+    about_path = resolve_description(about_path_value)
+    about_html = render_markdown(about_path.read_text(encoding="utf-8"))
+    if template.count(ABOUT_PLACEHOLDER) != 1:
+        raise ValueError(
+            f"Template must contain exactly one {ABOUT_PLACEHOLDER} placeholder"
+        )
+    template = template.replace(ABOUT_PLACEHOLDER, about_html)
 
     for section, placeholder in PLACEHOLDERS.items():
         projects = project_data[section]
