@@ -2,3 +2,8 @@
 title = "Welcome"
 date = 2026-08-14
 content = "diary/welcome.md"
+
+[[entry]]
+title = "It Works!"
+date = 2026-08-19
+content="diary/Works.md"
