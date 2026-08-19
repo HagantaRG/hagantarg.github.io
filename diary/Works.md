@@ -8,6 +8,7 @@ I will need to be able to roughly guesstimate where a train is from the data tha
 average travel times between any two stations on the TfL line. Which is tricky, since that also isn't data that TfL provides particularly nicely.
 
 Notable problems:
+
 - I do not know when trains depart from a station. This is the biggest problem, and what will require the most work. I will probably try to update this blog with some details
 of how I actually resolve this since I think that will necessarily be some kind of. Hacky monstrosity.
 
