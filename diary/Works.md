@@ -1,6 +1,3 @@
-# It Works!
-19 August 2026
-
 I finally managed to get the TfL Rust app to work as a web app! Hurray! Hopefully, you should be able to see that [here.](https://hagantarg.github.io/london-trains-eframe/) That was the thing I expected to be easier. The next part will be a bit trickier since I now want to
 display some kind of approximation of each in-flight train's positions on the map. 
 
