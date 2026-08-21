@@ -7,3 +7,8 @@ content = "diary/welcome.md"
 title = "It Works!"
 date = 2026-08-19
 content="diary/Works.md"
+
+[[entry]]
+title = "Lines are Hard."
+date = 2026-08-21
+content = "diary/lines.md"
