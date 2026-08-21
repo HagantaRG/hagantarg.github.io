@@ -24,6 +24,7 @@ ABOUT_PLACEHOLDER = "{{ about_myself }}"
 REQUIRED_FIELDS = {"name", "languages", "link", "description"}
 DIARY_FIELDS = {"title", "date", "content"}
 DIARY_PLACEHOLDER = "{{ diary_entries }}"
+DIARY_IMAGE_SUFFIXES = {".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"}
 
 
 def render_markdown(markdown_text: str) -> str:
@@ -239,6 +240,19 @@ def build_diary_page() -> str:
     return template.replace(DIARY_PLACEHOLDER, rendered)
 
 
+def copy_diary_images(output_dir: Path) -> None:
+    diary_output_dir = output_dir / "diary"
+    diary_output_dir.mkdir(parents=True, exist_ok=True)
+
+    for source_path in (ROOT / "diary").iterdir():
+        is_supported_image = (
+            source_path.is_file()
+            and source_path.suffix.lower() in DIARY_IMAGE_SUFFIXES
+        )
+        if is_supported_image:
+            shutil.copyfile(source_path, diary_output_dir / source_path.name)
+
+
 def build(output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "index.html").write_text(
@@ -248,6 +262,7 @@ def build(output_dir: Path) -> None:
         build_diary_page(), encoding="utf-8", newline="\n"
     )
     shutil.copyfile(ROOT / "assets" / "styles.css", output_dir / "styles.css")
+    copy_diary_images(output_dir)
 
 
 def main() -> None:

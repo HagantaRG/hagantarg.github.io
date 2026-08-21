@@ -46,6 +46,16 @@ The date must be an unquoted TOML local date in `YYYY-MM-DD` format. The
 directory. Diary files use the same full Markdown renderer as project
 descriptions.
 
+Place diary images directly inside the `diary` directory and reference them
+from a diary Markdown file using their generated-site path:
+
+```markdown
+![Description of the image](diary/example.png)
+```
+
+The build copies GIF, JPEG, PNG, SVG, and WebP images from `diary` into the
+generated site.
+
 Build the site locally with:
 
 ```powershell
