@@ -230,7 +230,12 @@ def build_diary_page() -> str:
         raise ValueError(
             f"Template must contain exactly one {DIARY_PLACEHOLDER} placeholder"
         )
-    rendered = "\n".join(render_diary_entry(entry) for entry in entries)
+    newest_entries_first = sorted(
+        entries,
+        key=lambda entry: entry["date"],
+        reverse=True,
+    )
+    rendered = "\n".join(render_diary_entry(entry) for entry in newest_entries_first)
     return template.replace(DIARY_PLACEHOLDER, rendered)
 
 

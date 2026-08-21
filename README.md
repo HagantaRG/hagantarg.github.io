@@ -31,8 +31,8 @@ project sections. Exactly one `About Myself` table is required.
 
 ## Updating the working diary
 
-Diary entries are generated from [`diary.toml`](diary.toml). Add entries in the
-order they should appear on the page:
+Diary entries are generated from [`diary.toml`](diary.toml) and displayed in
+reverse chronological order, with the latest entry first:
 
 ```toml
 [[entry]]
