@@ -5,12 +5,12 @@ the provided implementation.
 There's a few problems. One is that the way lines are grouped together means that some valid rail segments just get "deleted."
 Which is very annoying, since it makes the map just flat out wrong:
 
-![This is bad!][problem-1.png]
+![This is bad!](diary/problem-1.png)
 
 The other problem is that for rail segments that are *really* close to each bother but not joining the same two stations (such as
 the section of the Jubilee/Metropolitan line below) it also renders wrong! Gah!
 
-![This is annoying, but less bad.][problem-2.png]
+![This is annoying, but less bad.](diary/problem-2.png)
 
 The problem here, that I did not *realise* was the problem here until a few hours ago, was that I naively assumed that only
 segments of track spanning two stations would be close to each other. Which. Honestly. Why did I assume that?
